@@ -11,7 +11,14 @@ public class Circle
 
   public Circle(double radius)
   {
-    this.radius = radius;
+    if(radius >= 0.0)
+    {
+      this.radius = radius;
+    }
+    else
+    {
+      throw new IllegalArgumentException("radius must be >= 0.0");
+    }
   }
 
   public Circle(double radius,String color)
@@ -50,6 +57,34 @@ public class Circle
 
   public double getArea(){
     return Math.PI * Math.pow(radius, 2.0);
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof Circle))
+    {
+      return false;
+    }
+    Circle circle = (Circle) obj;
+
+    return Double.compare(radius, circle.radius) == 0 && color.equals(circle.color);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    long promRadius = Double.doubleToLongBits(radius);
+    result = 31 * result + (int) (promRadius ^ (promRadius >>> 32));
+    result = 31 * result + color.hashCode();
+
+    return result;
   }
 
 }

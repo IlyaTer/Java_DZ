@@ -8,11 +8,26 @@ public class Container
   private int y2;
 
   public Container(int x, int y, int width, int height)
+          throws IllegalArgumentException
   {
     this.x1 = x;
     this.y1 = y;
-    this.x2 = x1 + width;
-    this.y2 = y1 + height;
+    if(width > 0)
+    {
+      this.x2 = x1 + width;
+    }
+    else
+    {
+      throw new IllegalArgumentException("width must be > 0");
+    }
+    if(height > 0)
+    {
+      this.y2 = y1 + height;
+    }
+    else
+    {
+      throw new IllegalArgumentException("height must be > 0");
+    }
   }
 
   public int getX()
@@ -48,6 +63,62 @@ public class Container
   public String toString()
   {
     return "Container[("+x1+","+y1+"),("+x2+","+y2+")]";
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof Container))
+    {
+      return false;
+    }
+    Container container = (Container) obj;
+    int width = x2 - x1;
+    int height = y2 - y1;
+
+    int objWidth = container.x2 - container.x1;
+    int objHeight = container.y2 - container.y1;
+
+    return (width == objWidth && height == objHeight) ||
+            (width == objHeight && height == objWidth);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int width = x2 - x1;
+    int height = y2 - y1;
+
+    int result = 17;
+
+    if(width < height)
+    {
+      result = 31 * result + width;
+      result = 31 * result + height;
+
+      return  result;
+    }
+    else
+    {
+      result = 31 * result + height;
+      result = 31 * result + width;
+
+      return result;
+    }
+  }
+
+  public static void main(String[] args)
+  {
+    Container container = new Container(1,1,10,15);
+    Container container1 = new Container(2,10,15,10);
+    Container container2 = new Container(3,1,10,15);
+    System.out.println(container.hashCode());
+    System.out.println(container1.hashCode());
+    System.out.println(container2.hashCode());
   }
 
 }

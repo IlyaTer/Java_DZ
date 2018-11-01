@@ -130,4 +130,34 @@ public class MyComplex
     return new MyComplex(real,(-1.0) * imag);
   }
 
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof MyComplex))
+    {
+      return false;
+    }
+    MyComplex myComplex = (MyComplex) obj;
+
+    return Double.compare(real, myComplex.real) == 0 &&
+            Double.compare(imag, myComplex.imag) == 0;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    long promRes = Double.doubleToLongBits(real);
+    result = 31 * result + (int) (promRes ^ (promRes >>> 32));
+    promRes = Double.doubleToLongBits(imag);
+    result = 31 * result + (int) (promRes ^ (promRes >>> 32));
+
+    return result;
+  }
+
 }

@@ -12,7 +12,14 @@ public class Employee
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.salary = salary;
+    if(salary > 0)
+    {
+      this.salary = salary;
+    }
+    else
+    {
+      throw new IllegalArgumentException("salary must be > 0");
+    }
   }
 
   public int getId()
@@ -52,7 +59,14 @@ public class Employee
 
   public void setSalary(int salary)
   {
-    this.salary = salary;
+    if(salary > 0)
+    {
+      this.salary = salary;
+    }
+    else
+    {
+      throw new IllegalArgumentException("salary must be > 0");
+    }
   }
 
   public int getAnnualSalary()
@@ -75,6 +89,38 @@ public class Employee
             ", lastName='" + lastName +
             ", salary=" + salary +
             ']';
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof Employee))
+    {
+      return false;
+    }
+    Employee employee = (Employee) obj;
+
+    return salary == employee.salary &&
+            lastName.equals(employee.lastName) &&
+            firstName.equals(employee.firstName) &&
+            id == employee.id;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    result = 31 * result + id;
+    result = 31 * result + firstName.hashCode();
+    result = 31 * result + lastName.hashCode();
+    result = 31 * result + salary;
+
+    return result;
   }
 
 }

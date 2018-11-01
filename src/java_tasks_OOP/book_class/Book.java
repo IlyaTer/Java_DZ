@@ -1,5 +1,6 @@
 package java_tasks_OOP.book_class;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Book
@@ -61,7 +62,10 @@ public class Book
     for(int i = 0; i < authors.length; i++)
     {
       authorNames += authors[i].getName();
-      if(i == authors.length - 1) continue;
+      if(i == authors.length - 1)
+      {
+        continue;
+      }
       authorNames += ",";
     }
 
@@ -77,6 +81,42 @@ public class Book
             ", price=" + price +
             ", qty=" + qty +
             ']';
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof Book))
+    {
+      return false;
+    }
+    Book book = (Book) obj;
+
+    return name.equals(book.name) &&
+            Arrays.equals(authors, book.authors) &&
+            Double.compare(price, book.price) == 0 &&
+            qty == book.qty;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    result = 31 * result + name.hashCode();
+    for(Author a : authors)
+    {
+      result = 31 * result + a.hashCode();
+    }
+    long promField = Double.doubleToLongBits(price);
+    result = 31 * result + (int) (promField ^ (promField >>> 32));
+    result = 31 * result + qty;
+
+    return result;
   }
 
 }

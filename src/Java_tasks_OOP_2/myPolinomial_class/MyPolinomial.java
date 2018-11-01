@@ -1,5 +1,7 @@
 package Java_tasks_OOP_2.myPolinomial_class;
 
+import java.util.Arrays;
+
 public class MyPolinomial
 {
   private double[] coeffs;
@@ -90,5 +92,35 @@ public class MyPolinomial
     return new MyPolinomial(result);
   }
 
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return  true;
+    }
+    if(!(obj instanceof MyPolinomial))
+    {
+      return false;
+    }
+    MyPolinomial myPolinomial = (MyPolinomial) obj;
+
+    return Arrays.equals(coeffs, myPolinomial.coeffs);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    long promRes = 0L;
+    for(double d: coeffs)
+    {
+      promRes = Double.doubleToLongBits(d);
+      result = 31 * result + (int) (promRes ^ (promRes >>> 32));
+    }
+
+    return result;
+  }
 
 }

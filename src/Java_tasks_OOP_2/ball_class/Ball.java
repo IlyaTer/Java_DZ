@@ -9,13 +9,35 @@ public class Ball
   private float yDelta;
 
   public Ball(float x,float y,int radius,int speed,int direction)
+          throws IllegalArgumentException
   {
     this.x = x;
     this.y = y;
+    if(radius >= 0)
+    {
     this.radius = radius;
-    this.xDelta = (float) (speed * Math.cos(direction));
-    this.yDelta = (float) (-speed * Math.sin(direction));
-  }
+    }
+    else
+    {
+      throw new IllegalArgumentException("radius must br > 0");
+    }
+    if(speed >= 0 && (direction <= Math.PI && direction >= -Math.PI))
+    {
+      this.xDelta = (float) (speed * Math.cos(direction));
+      this.yDelta = (float) (-speed * Math.sin(direction));
+    }
+    else
+    {
+      if(speed < 0)
+      {
+        throw new IllegalArgumentException("speed must be >= 0");
+      }
+      else
+      {
+        throw new IllegalArgumentException("direction must be >= -PI and <= PI");
+      }
+    }//end first else
+  }// end constructor
 
   public float getX()
   {
@@ -43,8 +65,16 @@ public class Ball
   }
 
   public void setRadius(int radius)
+          throws IllegalArgumentException
   {
-    this.radius = radius;
+    if(radius >= 0)
+    {
+      this.radius = radius;
+    }
+    else
+    {
+      throw new IllegalArgumentException("radius must br > 0");
+    }
   }
 
   public float getxDelta()
@@ -87,6 +117,35 @@ public class Ball
   public String toString()
   {
     return "Ball[("+x+","+y+"), speed=("+xDelta+","+yDelta+")]";
+  }
+
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof Ball))
+    {
+      return false;
+    }
+    Ball ball = (Ball) obj;
+    return Float.compare(xDelta, ball.xDelta) == 0 &&
+            Float.compare(yDelta, ball.yDelta) == 0 &&
+            radius == ball.radius;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    result = 31 * result + radius;
+    result = 31 * result + Float.floatToIntBits(xDelta);
+    result = 31 * result + Float.floatToIntBits(yDelta);
+
+    return result;
   }
 
 }

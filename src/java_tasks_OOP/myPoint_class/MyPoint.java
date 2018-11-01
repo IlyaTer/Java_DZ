@@ -36,11 +36,12 @@ public class MyPoint
     this.y = y;
   }
 
-  public double[] getXY(){
+  public double[] getXY()
+  {
     return new double[]{x,y};
   }
 
-  public void setXY(int y, int x)
+  public void setXY(int y,int x)
   {
     this.y = y;
     this.x = x;
@@ -49,7 +50,7 @@ public class MyPoint
   @Override
   public String toString()
   {
-    return "("+x+","+y+")";
+    return "(" + x + "," + y + ")";
   }
 
   public double distance(double x,double y)
@@ -73,7 +74,7 @@ public class MyPoint
 
   public double distance(MyPoint another)
   {
-    return distance(another.x, another.y);
+    return distance(another.x,another.y);
   }
 
   public double distance()
@@ -81,4 +82,69 @@ public class MyPoint
     return distance(0.0,0.0);
   }
 
+  @Override
+  public boolean equals(Object obj)
+  {
+    if(this == obj)
+    {
+      return true;
+    }
+    if(!(obj instanceof MyPoint))
+    {
+      return false;
+    }
+    MyPoint myPoint = (MyPoint) obj;
+
+    return Double.compare(x,myPoint.x) == 0 &&
+            Double.compare(y,myPoint.y) == 0;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = 17;
+
+    long promData = Double.doubleToLongBits(x);
+    result = 31 * result + (int) (promData ^ (promData >>> 32));
+    promData = Double.doubleToLongBits(y);
+    result = 31 * result + (int) (promData ^ (promData >>> 32));
+
+    return result;
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,9 @@
 package javaDz.tasks.collection.classes.list;
 
+import javaDz.tasks.collection.classes.iterator.ListIterator;
 import javaDz.tasks.collection.interfaces.ILinkedKist;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Iterator;
 
 public class MyLinkedList<T> implements ILinkedKist<T>
@@ -19,12 +19,11 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     if(first == null)
     {
-      first = new Node<T>(newIndex, element);
+      first = new Node<T>(newIndex,element);
       last = first;
-    }
-    else
+    }else
     {
-      Node<T> temp = new Node<T>(newIndex, element);
+      Node<T> temp = new Node<T>(newIndex,element);
       last.setNextNode(temp);
       temp.setPreviosNode(last);
       last = temp;
@@ -39,7 +38,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     if(index >= 0 && index < newIndex)
     {
-      Node<T> newEl = new Node<>(index, element);
+      Node<T> newEl = new Node<>(index,element);
       if(Math.abs(newIndex - 1 - index) < index)
       {
         Node<T> curren = last;
@@ -62,8 +61,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
           }//end iner if
           curren = curren.getPreviosNode();
         }
-      }
-      else
+      }else
       {
         Node<T> curren = first;
         while(curren != null)
@@ -175,8 +173,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
 
         curren = curren.getPreviosNode();
       }
-    }
-    else
+    }else
     {
       Node<T> curren = first;
       while(curren != null)
@@ -252,19 +249,25 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     if(size > 0)
     {
-      array = (T[]) Array.newInstance(first.getElement() ,size);
+      T[] resMas = (T[]) Array.newInstance(first.getElement().getClass(),size);
+      Node<T> current = first;
+      int iter = 0;
+      while(current != null)
+      {
+        resMas[iter] = current.getElement();
+        current = current.getNextNode();
+        iter++;
+      }
 
+      return resMas;
     }
-    else
-    {
-      return null;
-    }
+    return null;
   }
 
   @Override
   public Iterator<T> iterator()
   {
-    return null;
+    return new ListIterator<T>(first);
   }
 
 }

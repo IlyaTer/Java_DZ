@@ -3,6 +3,7 @@ package javaDz.tasks.collection;
 import javaDz.tasks.collection.classes.list.MyLinkedList;
 import javaDz.tasks.collection.interfaces.ILinkedKist;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,14 +58,14 @@ public class Main
     System.out.println("set in MyList, time = " + startTime);
     System.out.println("result set " + res);
 
+integerILinkedKist.clear();
 //test toArray
     Integer[] testMas = integerILinkedKist.toArray();
-    for(Integer i : testMas)
+//test Iterator
+    for(Integer i : integerILinkedKist)
     {
-      //iterator test
-    }
-    System.out.println(integerILinkedKist.size());
 
+    }
 
 
 //test LinkedList
@@ -114,7 +115,6 @@ public class Main
     startTime = System.nanoTime() - startTime;
     System.out.println("set in LinkedList, time = " + startTime);
     System.out.println("result set " + res);
-
 
   }
 

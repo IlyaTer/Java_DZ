@@ -1,10 +1,10 @@
 package javaDz.tasks.collection.classes.list;
 
-import javaDz.tasks.collection.classes.iterator.ListIterator;
 import javaDz.tasks.collection.interfaces.ILinkedKist;
 
 import java.lang.reflect.Array;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MyLinkedList<T> implements ILinkedKist<T>
 {
@@ -91,10 +91,9 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   @Override
   public void clear()
   {
-    first = null;
-    last = null;
-    newIndex = 0;
+    first = last = null;
     size = 0;
+    newIndex = 0;
   }
 
   @Override
@@ -267,7 +266,34 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   @Override
   public Iterator<T> iterator()
   {
-    return new ListIterator<T>(first);
+
+    return new Iterator<T>()
+    {
+      private Node<T> current = first;
+
+      @Override
+      public boolean hasNext()
+      {
+        if(current != null)
+        {
+          return true;
+        }
+        return false;
+      }
+
+      @Override
+      public T next()
+              throws NoSuchElementException
+      {
+        if(current == null)
+        {
+          throw new NoSuchElementException();
+        }
+        Node<T> temp = current;
+        current = current.getNextNode();
+        return temp.getElement();
+      }
+    };//end anonim class
   }
 
 }

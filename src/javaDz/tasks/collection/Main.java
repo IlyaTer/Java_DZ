@@ -3,7 +3,6 @@ package javaDz.tasks.collection;
 import javaDz.tasks.collection.classes.list.MyLinkedList;
 import javaDz.tasks.collection.interfaces.ILinkedKist;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class Main
     ILinkedKist<Integer> integerILinkedKist = new MyLinkedList<>();
     for(int i = 0; i < 1000000; i++)
     {
-      integerILinkedKist.add(((int) (1 + Math.random() * 1000000)));
+      integerILinkedKist.add(i);
     }
 
     System.out.println("MyList test");
@@ -33,20 +32,20 @@ public class Main
 
 //test remove
     startTime = System.nanoTime();
-    integerILinkedKist.remove(101);
+    integerILinkedKist.remove(1000000);
     startTime = System.nanoTime() - startTime;
     System.out.println("remove from MyList, time = " + startTime);
 
 //test get
     startTime = System.nanoTime();
-    int res = integerILinkedKist.get(101);
+    int res = integerILinkedKist.get(0);
     startTime = System.nanoTime() - startTime;
     System.out.println("get from MyList, time = " + startTime);
     System.out.println("result get " + res);
 
 //test indexOf
     startTime = System.nanoTime();
-    res = integerILinkedKist.indexOf(101010);
+    res = integerILinkedKist.indexOf(-111);
     startTime = System.nanoTime() - startTime;
     System.out.println("indexOf from MyList, time = " + startTime);
     System.out.println("result indexOf " + res);
@@ -104,7 +103,7 @@ integerILinkedKist.clear();
 
 //test indexOf
     startTime = System.nanoTime();
-    res = integers.indexOf(101010);
+    res = integers.indexOf(-111);
     startTime = System.nanoTime() - startTime;
     System.out.println("indexOf from LinkedList, time = " + startTime);
     System.out.println("result indexOf " + res);

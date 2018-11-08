@@ -1,15 +1,13 @@
 package javaDz.tasks.collection.classes.list;
 
-public class Node<T>
+class Node<T>
 {
-  private int posIndex;
   private T element;
   private Node<T> nextNode;
   private Node<T> previosNode;
 
-  public Node(int posIndex,T element)
+  public Node(T element)
   {
-    this.posIndex = posIndex;
     this.element = element;
   }
 
@@ -31,16 +29,6 @@ public class Node<T>
   public void setElement(T element)
   {
     this.element = element;
-  }
-
-  public int getPosIndex()
-  {
-    return posIndex;
-  }
-
-  public void setPosIndex(int posIndex)
-  {
-    this.posIndex = posIndex;
   }
 
   public Node<T> getPreviosNode()

@@ -13,24 +13,27 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   private Node<T> first;
   private Node<T> last;
   private T[] array;
+  private EasyList numList = new EasyList();
 
   @Override
   public void add(T element)
   {
     if(first == null)
     {
-      first = new Node<T>(newIndex,element);
-      last = first;
+      first = last = new Node<T>(element);
+      numList.add(newIndex);
+      newIndex++;
+      size++;
     }else
     {
-      Node<T> temp = new Node<T>(newIndex,element);
+      Node<T> temp = new Node<T>(element);
       last.setNextNode(temp);
       temp.setPreviosNode(last);
       last = temp;
+      numList.add(newIndex);
+      newIndex++;
+      size++;
     }
-
-    newIndex++;
-    size++;
   }
 
   @Override
@@ -38,51 +41,47 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     if(index >= 0 && index < newIndex)
     {
-      Node<T> newEl = new Node<>(index,element);
+      Node<T> newEl = new Node<>(element);
       if(Math.abs(newIndex - 1 - index) < index)
       {
         Node<T> curren = last;
+        Node<Integer> indexEl = numList.getLast();
         while(curren != null)
         {
-          if(curren.getPosIndex() == index)
+          if(indexEl.getElement() == index)
           {
             curren.getPreviosNode().setNextNode(newEl);
             newEl.setPreviosNode(curren.getPreviosNode());
             newEl.setNextNode(curren);
             curren.setPreviosNode(newEl);
-            while(curren != null)
-            {
-              curren.setPosIndex(curren.getPosIndex() + 1);
-              curren = curren.getNextNode();
-            }
+            numList.add(newIndex);
             newIndex++;
             size++;
             return;
           }//end iner if
           curren = curren.getPreviosNode();
+          indexEl = indexEl.getPreviosNode();
         }
       }else
       {
         Node<T> curren = first;
+        Node<Integer> indexEl = numList.getFirst();
         while(curren != null)
         {
-          if(curren.getPosIndex() == index)
+          if(indexEl.getElement() == index)
           {
             curren.getPreviosNode().setNextNode(newEl);
             newEl.setPreviosNode(curren.getPreviosNode());
             newEl.setNextNode(curren);
             curren.setPreviosNode(newEl);
-            while(curren != null)
-            {
-              curren.setPosIndex(curren.getPosIndex() + 1);
-              curren = curren.getNextNode();
-            }
+            numList.add(newIndex);
             newIndex++;
             size++;
             return;
           }//end iner if
 
           curren = curren.getNextNode();
+          indexEl = indexEl.getNextNode();
         }
       }
     }//end if
@@ -103,27 +102,31 @@ public class MyLinkedList<T> implements ILinkedKist<T>
     {
       if(Math.abs(newIndex - 1 - index) < index)
       {
+        Node<Integer> indexEl = numList.getLast();
         Node<T> curren = last;
         while(curren != null)
         {
-          if(curren.getPosIndex() == index)
+          if(indexEl.getElement() == index)
           {
             return curren.getElement();
           }
 
           curren = curren.getPreviosNode();
+          indexEl = indexEl.getPreviosNode();
         }//end whiel
       }else
       {
+        Node<Integer> indexEl = numList.getFirst();
         Node<T> curren = first;
         while(curren != null)
         {
-          if(curren.getPosIndex() == index)
+          if(indexEl.getElement() == index)
           {
             return curren.getElement();
           }
 
           curren = curren.getNextNode();
+          indexEl = indexEl.getNextNode();
         }//end while
       }//end else in if/else
     }
@@ -133,14 +136,15 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   @Override
   public int indexOf(T element)
   {
+    Node<Integer> indexEl = numList.getFirst();
     Node<T> curren = first;
     while(curren != null)
     {
       if(curren.getElement().equals(element))
       {
-        return curren.getPosIndex();
+        return indexEl.getElement();
       }
-
+      indexEl = indexEl.getNextNode();
       curren = curren.getNextNode();
     }
     return -1;
@@ -152,48 +156,65 @@ public class MyLinkedList<T> implements ILinkedKist<T>
     if(Math.abs(newIndex - 1 - index) < index)
     {
       Node<T> curren = last;
+      Node<Integer> indexEl = numList.getLast();
       while(curren != null)
       {
-        if(curren.getPosIndex() == index)
+        if(indexEl.getElement() == index)
         {
-          Node<T> temp = curren;
-          curren.getPreviosNode().setNextNode(curren.getNextNode());
-          curren.getNextNode().setPreviosNode(curren.getPreviosNode());
-          curren = curren.getNextNode();
-          while(curren != null)
-          {
-            curren.setPosIndex(curren.getPosIndex() - 1);
-            curren = curren.getNextNode();
-          }
+            Node<T> temp = curren;
+            if(index == newIndex - 1)
+            {
+              curren.getPreviosNode().setNextNode(null);
+              last = curren.getPreviosNode();
+              numList.remove();
+            }
+            else
+            {
+              curren.getPreviosNode().setNextNode(curren.getNextNode());
+              curren.getNextNode().setPreviosNode(curren.getPreviosNode());
+              curren = curren.getNextNode();
+              numList.remove();
+            }
+
           newIndex--;
           size--;
           return temp.getElement();
         }
 
         curren = curren.getPreviosNode();
+        indexEl = indexEl.getPreviosNode();
       }
-    }else
+    }
+    else
     {
       Node<T> curren = first;
+      Node<Integer> indexEl = numList.getFirst();
       while(curren != null)
       {
-        if(curren.getPosIndex() == index)
+        if(indexEl.getElement() == index)
         {
           Node<T> temp = curren;
-          curren.getPreviosNode().setNextNode(curren.getNextNode());
-          curren.getNextNode().setPreviosNode(curren.getPreviosNode());
-          curren = curren.getNextNode();
-          while(curren != null)
+          if(index == 0)
           {
-            curren.setPosIndex(curren.getPosIndex() - 1);
-            curren = curren.getNextNode();
+            curren.getNextNode().setPreviosNode(null);
+            first = curren.getNextNode();
+            numList.remove();
           }
+          else
+          {
+            curren.getPreviosNode().setNextNode(curren.getNextNode());
+            curren.getNextNode().setPreviosNode(curren.getPreviosNode());
+            curren = curren.getNextNode();
+            numList.remove();
+          }
+
           newIndex--;
           size--;
           return temp.getElement();
         }
 
         curren = curren.getNextNode();
+        indexEl = indexEl.getNextNode();
       }
     }
     return null;
@@ -206,10 +227,11 @@ public class MyLinkedList<T> implements ILinkedKist<T>
     {
       if(Math.abs(newIndex - 1 - index) < index)
       {
+        Node<Integer> indexEl = numList.getLast();
         Node<T> curren = last;
         while(curren != null)
         {
-          if(curren.getPosIndex() == index)
+          if(indexEl.getElement() == index)
           {
             T res = curren.getElement();
             curren.setElement(element);
@@ -217,13 +239,15 @@ public class MyLinkedList<T> implements ILinkedKist<T>
           }
 
           curren = curren.getPreviosNode();
+          indexEl = indexEl.getPreviosNode();
         }//end whiel
       }else
       {
+        Node<Integer> indexEl = numList.getFirst();
         Node<T> curren = first;
         while(curren != null)
         {
-          if(curren.getPosIndex() == index)
+          if(indexEl.getElement() == index)
           {
             T res = curren.getElement();
             curren.setElement(element);
@@ -231,6 +255,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
           }
 
           curren = curren.getNextNode();
+          indexEl = indexEl.getNextNode();
         }//end while
       }//end else in if/else
     }

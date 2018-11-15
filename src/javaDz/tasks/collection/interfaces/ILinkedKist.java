@@ -18,7 +18,7 @@ public interface ILinkedKist<T> extends Iterable<T>
 
   int size();
 
-  T[] toArray();
+  Object[] toArray();
 
   String toString();
 }

@@ -2,9 +2,9 @@ package javaDz.tasks.collection.classes.list;
 
 class Node<T>
 {
-  private T element;
-  private Node<T> nextNode;
-  private Node<T> previosNode;
+  T element;
+  Node<T> nextNode;
+  Node<T> previosNode;
 
   public Node(T element)
   {

@@ -266,7 +266,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
     if(size > 0)
     {
       Node<T> current = first;
-      T[] resMas = (T[]) Array.newInstance(Object.class,size); ;
+      T[] resMas = (T[]) Array.newInstance(Object.class,size);
       int iter = 0;
 
       while(current != null)
@@ -279,6 +279,28 @@ public class MyLinkedList<T> implements ILinkedKist<T>
       return resMas;
     }
     return null;
+  }
+
+  @Override
+  public T[] toArray(T[] mas)
+  {
+    if(mas.length == size)
+    {
+      for(int i = 0; i < mas.length; i++)
+      {
+        mas[i] = get(i);
+      }
+      return mas;
+    }
+    else
+    {
+      T[] resMas = (T[]) Array.newInstance(mas[0].getClass(),size);
+      for(int i = 0; i < resMas.length; i++)
+      {
+        resMas[i] = get(i);
+      }
+      return resMas;
+    }
   }
 
   @Override

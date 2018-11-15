@@ -18,13 +18,13 @@ public class Main
     double avgGetTime = 0;
     double avgIndexOfTime = 0;
     double avgSetTime = 0;
-    int cuontLaunch = 100;
+    int cuontLaunch = 10000;
 
     ILinkedKist<Integer> integerILinkedKist = new MyLinkedList<>();
 
     for(int i = 0; i < 1000000; i++)
     {
-      integerILinkedKist.add(123);
+      integerILinkedKist.add(((int) (1 + Math.random() * 1000000)));
     }
     System.out.println("MyList test");
     for(int i = 0; i < cuontLaunch; i++)
@@ -49,7 +49,7 @@ public class Main
 
 //test get
       startTime = System.nanoTime();
-      res = integerILinkedKist.get(0);
+      res = integerILinkedKist.get(101);
       startTime = System.nanoTime() - startTime;
       avgGetTime += startTime;
 
@@ -61,7 +61,7 @@ public class Main
 
 //test set
       startTime = System.nanoTime();
-      res = integerILinkedKist.set(0,-77);
+      res = integerILinkedKist.set(101010,-77);
       startTime = System.nanoTime() - startTime;
       avgSetTime += startTime;
     }//end test for
@@ -101,7 +101,7 @@ public class Main
 
     for(int i = 0; i < 1000000; i++)
     {
-      integers.add(123);
+      integers.add(((int) (1 + Math.random() * 1000000)));
     }
     System.out.println();
     System.out.println("LinkedList test");

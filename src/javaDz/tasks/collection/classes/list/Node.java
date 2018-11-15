@@ -6,38 +6,10 @@ class Node<T>
   Node<T> nextNode;
   Node<T> previosNode;
 
-  public Node(T element)
+  public Node(Node<T> previosNode, T element, Node<T> nextNode)
   {
     this.element = element;
-  }
-
-  public Node<T> getNextNode()
-  {
-    return nextNode;
-  }
-
-  public void setNextNode(Node<T> nextNode)
-  {
     this.nextNode = nextNode;
-  }
-
-  public T getElement()
-  {
-    return element;
-  }
-
-  public void setElement(T element)
-  {
-    this.element = element;
-  }
-
-  public Node<T> getPreviosNode()
-  {
-    return previosNode;
-  }
-
-  public void setPreviosNode(Node<T> previosNode)
-  {
     this.previosNode = previosNode;
   }
 

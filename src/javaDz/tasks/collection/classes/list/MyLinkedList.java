@@ -18,14 +18,14 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     if(first == null)
     {
-      first = last = new Node<T>(element);
+      first = last = new Node<T>(null ,element, null);
       newIndex++;
       size++;
     }else
     {
-      Node<T> temp = new Node<T>(element);
-      last.setNextNode(temp);
-      temp.setPreviosNode(last);
+      Node<T> temp = new Node<T>(last ,element, null);
+      last.nextNode = temp;
+      temp.previosNode = last;
       last = temp;
       newIndex++;
       size++;
@@ -37,7 +37,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     if(index >= 0 && index < newIndex)
     {
-      Node<T> newEl = new Node<>(element);
+      Node<T> newEl = new Node<>(null ,element, null);
       if(Math.abs(newIndex - 1 - index) < index)
       {
         Node<T> curren = last;
@@ -46,15 +46,15 @@ public class MyLinkedList<T> implements ILinkedKist<T>
         {
           if(iter == index)
           {
-            curren.getPreviosNode().setNextNode(newEl);
-            newEl.setPreviosNode(curren.getPreviosNode());
-            newEl.setNextNode(curren);
-            curren.setPreviosNode(newEl);
+            curren.previosNode.nextNode = newEl;
+            newEl.previosNode = curren.previosNode;
+            newEl.nextNode = curren;
+            curren.previosNode = newEl;
             newIndex++;
             size++;
             return;
           }//end iner if
-          curren = curren.getPreviosNode();
+          curren = curren.previosNode;
           iter--;
         }//end while
       }else
@@ -65,15 +65,15 @@ public class MyLinkedList<T> implements ILinkedKist<T>
         {
           if(iter == index)
           {
-            curren.getPreviosNode().setNextNode(newEl);
-            newEl.setPreviosNode(curren.getPreviosNode());
-            newEl.setNextNode(curren);
-            curren.setPreviosNode(newEl);
+            curren.previosNode.nextNode = newEl;
+            newEl.previosNode = curren.previosNode;
+            newEl.nextNode = curren;
+            curren.previosNode = newEl;
             newIndex++;
             size++;
             return;
           }//end iner if
-          curren = curren.getNextNode();
+          curren = curren.nextNode;
           iter++;
         }//end while
       }
@@ -101,10 +101,10 @@ public class MyLinkedList<T> implements ILinkedKist<T>
         {
           if(iter == index)
           {
-            return curren.getElement();
+            return curren.element;
           }
 
-          curren = curren.getPreviosNode();
+          curren = curren.previosNode;
           iter--;
         }//end whiel
       }else
@@ -115,10 +115,10 @@ public class MyLinkedList<T> implements ILinkedKist<T>
         {
           if(iter == index)
           {
-            return curren.getElement();
+            return curren.element;
           }
 
-          curren = curren.getNextNode();
+          curren = curren.nextNode;
           iter++;
         }//end while
       }//end else in if/else
@@ -160,22 +160,22 @@ public class MyLinkedList<T> implements ILinkedKist<T>
             Node<T> temp = curren;
             if(index == newIndex - 1)
             {
-              curren.getPreviosNode().setNextNode(null);
-              last = curren.getPreviosNode();
+              curren.previosNode.nextNode = null;
+              last = curren.previosNode;
             }
             else
             {
-              curren.getPreviosNode().setNextNode(curren.getNextNode());
-              curren.getNextNode().setPreviosNode(curren.getPreviosNode());
-              curren = curren.getNextNode();
+              curren.previosNode.nextNode = curren.nextNode;
+              curren.nextNode.previosNode = curren.previosNode;
+              curren = curren.nextNode;
             }
 
           newIndex--;
           size--;
-          return temp.getElement();
+          return temp.element;
         }
 
-        curren = curren.getPreviosNode();
+        curren = curren.previosNode;
         iter--;
       }
     }
@@ -190,22 +190,22 @@ public class MyLinkedList<T> implements ILinkedKist<T>
           Node<T> temp = curren;
           if(index == 0)
           {
-            curren.getNextNode().setPreviosNode(null);
-            first = curren.getNextNode();
+            curren.nextNode.previosNode = null;
+            first = curren.nextNode;
           }
           else
           {
-            curren.getPreviosNode().setNextNode(curren.getNextNode());
-            curren.getNextNode().setPreviosNode(curren.getPreviosNode());
-            curren = curren.getNextNode();
+            curren.previosNode.nextNode = curren.nextNode;
+            curren.nextNode.previosNode = curren.previosNode;
+            curren = curren.nextNode;
           }
 
           newIndex--;
           size--;
-          return temp.getElement();
+          return temp.element;
         }
 
-        curren = curren.getNextNode();
+        curren = curren.nextNode;
         iter++;
       }
     }
@@ -225,12 +225,12 @@ public class MyLinkedList<T> implements ILinkedKist<T>
         {
           if(iter == index)
           {
-            T res = curren.getElement();
-            curren.setElement(element);
+            T res = curren.element;
+            curren.element = element;
             return res;
           }
 
-          curren = curren.getPreviosNode();
+          curren = curren.previosNode;
           iter--;
         }//end whiel
       }else
@@ -241,12 +241,12 @@ public class MyLinkedList<T> implements ILinkedKist<T>
         {
           if(iter == index)
           {
-            T res = curren.getElement();
-            curren.setElement(element);
+            T res = curren.element;
+            curren.element = element;
             return res;
           }
 
-          curren = curren.getNextNode();
+          curren = curren.nextNode;
           iter++;
         }//end while
       }//end else in if/else
@@ -259,7 +259,7 @@ public class MyLinkedList<T> implements ILinkedKist<T>
   {
     return size;
   }
-  //todo переделать реализацию
+
   @Override
   public Object[] toArray()
   {
@@ -271,8 +271,8 @@ public class MyLinkedList<T> implements ILinkedKist<T>
 
       while(current != null)
       {
-        resMas[iter] = current.getElement();
-        current = current.getNextNode();
+        resMas[iter] = current.element;
+        current = current.nextNode;
         iter++;
       }
 
@@ -308,8 +308,8 @@ public class MyLinkedList<T> implements ILinkedKist<T>
           throw new NoSuchElementException();
         }
         Node<T> temp = current;
-        current = current.getNextNode();
-        return temp.getElement();
+        current = current.nextNode;
+        return temp.element;
       }
     };//end anonim class
   }

@@ -4,10 +4,8 @@ import java.util.*;
 
 public class TestJavaCollections
 {
-  private static void arrayListVsLinkedList(int cuontLaunch)
+  private static void testListFunc(List<Integer> list, int cuontLaunch, String name)
   {
-    System.out.println("Test a");
-    //ArrayList vs LinkedList
     int res = 0;
     long startTime = System.nanoTime();
     double avgAddTime = 0;
@@ -16,47 +14,47 @@ public class TestJavaCollections
     double avgGetTime = 0;
     double avgIndexOfTime = 0;
     double avgSetTime = 0;
-    List<Integer> integerArrayList = new ArrayList<>();
+    List<Integer> integerList = list;
     for(int i = 0; i < 1000000; i++)
     {
-      integerArrayList.add(((int) (1 + Math.random() * 1000000)));
+      integerList.add(((int) (1 + Math.random() * 1000000)));
     }
 
-    System.out.println("ArrayList test");
+    System.out.println(name);
     for(int i = 0; i < cuontLaunch; i++)
     {
 //test add
       startTime = System.nanoTime();
-      integerArrayList.add(-111);
+      integerList.add(-111);
       startTime = System.nanoTime() - startTime;
       avgAddTime += startTime;
 
 //test add in pos
       startTime = System.nanoTime();
-      integerArrayList.add(10101,-55);
+      integerList.add(10101,-55);
       startTime = System.nanoTime() - startTime;
       avgAddInPosTime += startTime;
 
 //test remove
       startTime = System.nanoTime();
-      integerArrayList.remove(1000000);
+      integerList.remove(1000000);
       startTime = System.nanoTime() - startTime;
       avgRemoveTime += startTime;
 
 //test get
       startTime = System.nanoTime();
-      res = integerArrayList.get(101);
+      res = integerList.get(101);
       startTime = System.nanoTime() - startTime;
       avgGetTime += startTime;
 //test indexOf
       startTime = System.nanoTime();
-      res = integerArrayList.indexOf(-111);
+      res = integerList.indexOf(-111);
       startTime = System.nanoTime() - startTime;
       avgIndexOfTime += startTime;
 
 //test set
       startTime = System.nanoTime();
-      res = integerArrayList.set(101010,-77);
+      res = integerList.set(101010,-77);
       startTime = System.nanoTime() - startTime;
       avgSetTime += startTime;
     }//end test for
@@ -67,84 +65,33 @@ public class TestJavaCollections
     System.out.println("Avg get time = " + avgGetTime / cuontLaunch);
     System.out.println("Avg indexOf time = " + avgIndexOfTime / cuontLaunch);
     System.out.println("Avg set time = " + avgSetTime / cuontLaunch);
+  }
 
-
-    List<Integer> integers = new LinkedList<>();
-    avgAddTime = 0;
-    avgAddInPosTime = 0;
-    avgRemoveTime = 0;
-    avgGetTime = 0;
-    avgIndexOfTime = 0;
-    avgSetTime = 0;
-    for(int i = 0; i < 1000000; i++)
-    {
-      integers.add(((int) (1 + Math.random() * 1000000)));
-    }
-
+  private static void arrayListVsLinkedList(int cuontLaunch)
+  {
+    System.out.println("Test a");
+    //ArrayList vs LinkedList
+    List<Integer> arList = new ArrayList<>();
+    List<Integer> linkList = new LinkedList<>();
+    testListFunc(arList, cuontLaunch, "ArrayList");
     System.out.println();
-    System.out.println("LinkedList test");
-    for(int i = 0; i < cuontLaunch; i++)
-    {
-//test add
-      startTime = System.nanoTime();
-      integers.add(-111);
-      startTime = System.nanoTime() - startTime;
-      avgAddTime += startTime;
-
-//test add in pos
-      startTime = System.nanoTime();
-      integers.add(10101,-55);
-      startTime = System.nanoTime() - startTime;
-      avgAddInPosTime += startTime;
-
-//test remove
-      startTime = System.nanoTime();
-      integers.remove(101);
-      startTime = System.nanoTime() - startTime;
-      avgRemoveTime += startTime;
-
-//test get
-      startTime = System.nanoTime();
-      res = integers.get(101);
-      startTime = System.nanoTime() - startTime;
-      avgGetTime += startTime;
-
-//test indexOf
-      startTime = System.nanoTime();
-      res = integers.indexOf(-111);
-      startTime = System.nanoTime() - startTime;
-      avgIndexOfTime += startTime;
-
-//test set
-      startTime = System.nanoTime();
-      res = integers.set(101010,-77);
-      startTime = System.nanoTime() - startTime;
-      avgSetTime += startTime;
-    }//end test for
-
-    System.out.println("Avg add time = " + avgAddTime / cuontLaunch);
-    System.out.println("Avg add in pos time = " + avgAddInPosTime / cuontLaunch);
-    System.out.println("Avg remove time = " + avgRemoveTime / cuontLaunch);
-    System.out.println("Avg get time = " + avgGetTime / cuontLaunch);
-    System.out.println("Avg indexOf time = " + avgIndexOfTime / cuontLaunch);
-    System.out.println("Avg set time = " + avgSetTime / cuontLaunch);
+    testListFunc(linkList, cuontLaunch, "LinkedList");
 
   }
 
-  private static void hashSetVsTreeSetVsLinkedHashSet(int cuontLaunch)
+  private static void testSetFunc(Set<Integer> set, int cuontLaunch, String name)
   {
     long startTime = 0;
     double avgAddTime = 0;
     double avgRemoveTime = 0;
     double avgContains = 0;
     System.out.println();
-    System.out.println("Test b");
-    Set<Integer> integerSet = new HashSet<>();
+    Set<Integer> integerSet = set;
     for(int i = 0; i < 1000000; i++)
     {
       integerSet.add(((int) (1 + Math.random() * 1000000)));
     }
-    System.out.println("HashSet test");
+    System.out.println(name);
     for(int i = 0; i < cuontLaunch; i++)
     {
 //test add
@@ -169,92 +116,26 @@ public class TestJavaCollections
     System.out.println("Avg add HashSet = " + avgAddTime / cuontLaunch);
     System.out.println("Avg remove HashSet = " + avgRemoveTime / cuontLaunch);
     System.out.println("Avg contains HashSet = " + avgContains / cuontLaunch);
-
-
-    Set<Integer> integerTreeSet = new TreeSet<>();
-    avgAddTime = 0;
-    avgRemoveTime = 0;
-    avgContains = 0;
-
-    for(int i = 0; i < 1000000; i++)
-    {
-      integerTreeSet.add(((int) (1 + Math.random() * 1000000)));
-    }
-
-    System.out.println();
-    System.out.println("TreeSet test");
-    for(int i = 0; i < cuontLaunch; i++)
-    {
-//test add
-      startTime = System.nanoTime();
-      integerTreeSet.add(-111);
-      startTime = System.nanoTime() - startTime;
-      avgAddTime += startTime;
-
-//test remove
-      startTime = System.nanoTime();
-      integerTreeSet.remove(101);
-      startTime = System.nanoTime() - startTime;
-      avgRemoveTime += startTime;
-
-//test contains
-      startTime = System.nanoTime();
-      integerTreeSet.contains(10110);
-      startTime = System.nanoTime() - startTime;
-      avgContains += startTime;
-    }
-
-    System.out.println("Avg add TreeSet = " + avgAddTime / cuontLaunch);
-    System.out.println("Avg remove TreeSet = " + avgRemoveTime / cuontLaunch);
-    System.out.println("Avg contains TreeSet = " + avgContains / cuontLaunch);
-
-
-    Set<Integer> integerLinkedHashSet = new LinkedHashSet<>();
-    avgAddTime = 0;
-    avgRemoveTime = 0;
-    avgContains = 0;
-
-    for(int i = 0; i < 1000000; i++)
-    {
-      integerLinkedHashSet.add(((int) (1 + Math.random() * 1000000)));
-    }
-
-    System.out.println();
-    System.out.println("LinkedHashSet test");
-//test add
-    for(int i = 0; i < cuontLaunch; i++)
-    {
-      startTime = System.nanoTime();
-      integerLinkedHashSet.add(-111);
-      startTime = System.nanoTime() - startTime;
-      avgAddTime += startTime;
-
-//test remove
-      startTime = System.nanoTime();
-      integerLinkedHashSet.remove(101);
-      startTime = System.nanoTime() - startTime;
-      avgRemoveTime += startTime;
-
-//test contains
-      startTime = System.nanoTime();
-      integerLinkedHashSet.contains(10110);
-      startTime = System.nanoTime() - startTime;
-      avgContains += startTime;
-    }
-
-    System.out.println("Avg add LinkedHashSet = " + avgAddTime / cuontLaunch);
-    System.out.println("Avg remove LinkedHashSet = " + avgRemoveTime / cuontLaunch);
-    System.out.println("Avg contains LinkedHashSet = " + avgContains / cuontLaunch);
-
   }
 
-  private static void hashMapVsTreeMapVsLinkedHashMap(int cuontLaunch)
+  private static void hashSetVsTreeSetVsLinkedHashSet(int cuontLaunch)
   {
-    //test c
+    System.out.println();
+    System.out.println("test b");
+    Set<Integer> hashSet = new HashSet<>();
+    Set<Integer> integerTreeSet = new TreeSet<>();
+    Set<Integer> integerLinkedHashSet = new LinkedHashSet<>();
+
+    testSetFunc(hashSet, cuontLaunch, "HashSet");
+    testSetFunc(integerTreeSet, cuontLaunch, "TreeSet");
+    testSetFunc(integerLinkedHashSet, cuontLaunch, "LinkedHashSet");
+  }
+
+  private static void testMapFunc(Map<Integer, String> map, int cuontLaunch, String name)
+  {
     long startTime = 0;
     System.out.println();
-    System.out.println("test c");
-    Map<Integer, String> stringMap = new HashMap<>();
+    Map<Integer, String> stringMap = map;
     double avgAddTime = 0;
     double avgGetTime = 0;
     double avgRemoveTime = 0;
@@ -264,8 +145,7 @@ public class TestJavaCollections
     {
       stringMap.put(i,Integer.toString((int) (1 + Math.random() * 1000000)));
     }
-    System.out.println();
-    System.out.println("HasMap test");
+    System.out.println(name);
 
     for(int i = 0; i < cuontLaunch; i++)
     {
@@ -306,110 +186,21 @@ public class TestJavaCollections
     System.out.println("Avg containsKey HasMap = " + avgContainsKey / cuontLaunch);
     System.out.println("Avg containsValue HasMap = " + avgContainsValue / cuontLaunch);
     System.out.println("Avg remove HasMap = " + avgRemoveTime / cuontLaunch);
+  }
 
+  private static void hashMapVsTreeMapVsLinkedHashMap(int cuontLaunch)
+  {
+    //test c
+    System.out.println();
+    System.out.println("test c");
+    Map<Integer, String> stringMap = new HashMap<>();
     Map<Integer, String> integerStringMap = new TreeMap<>();
-    avgAddTime = 0;
-    avgGetTime = 0;
-    avgRemoveTime = 0;
-    avgContainsValue = 0;
-    avgContainsKey = 0;
-    for(int i = 0; i < 1000000; i++)
-    {
-      integerStringMap.put(i,Integer.toString((int) (1 + Math.random() * 1000000)));
-    }
-    System.out.println();
-    System.out.println("TreeMap test");
-    for(int i = 0; i < cuontLaunch; i++)
-    {
-//test put
-      startTime = System.nanoTime();
-      integerStringMap.put(-1,"Test");
-      startTime = System.nanoTime() - startTime;
-      avgAddTime += startTime;
-
-//test get
-      startTime = System.nanoTime();
-      integerStringMap.get(1123);
-      startTime = System.nanoTime() - startTime;
-      avgGetTime += startTime;
-
-//test contains key
-      startTime = System.nanoTime();
-      integerStringMap.containsKey(1123);
-      startTime = System.nanoTime() - startTime;
-      avgContainsKey += startTime;
-
-//test contains value
-      startTime = System.nanoTime();
-      integerStringMap.containsValue("1233");
-      startTime = System.nanoTime() - startTime;
-      avgContainsValue += startTime;
-
-//test remove key
-      startTime = System.nanoTime();
-      integerStringMap.remove(1233);
-      startTime = System.nanoTime() - startTime;
-      avgRemoveTime += startTime;
-    }
-
-    System.out.println("Avg Put TreeMap = " + avgAddTime / cuontLaunch);
-    System.out.println("Avg Get TreeMap = " + avgGetTime / cuontLaunch);
-    System.out.println("Avg containsKey TreeMap = " + avgContainsKey / cuontLaunch);
-    System.out.println("Avg containsValue TreeMap = " + avgContainsValue / cuontLaunch);
-    System.out.println("Avg remove TreeMap = " + avgRemoveTime / cuontLaunch);
-
-
     Map<Integer, String> integerStrMap = new LinkedHashMap<>();
-    avgAddTime = 0;
-    avgGetTime = 0;
-    avgRemoveTime = 0;
-    avgContainsValue = 0;
-    avgContainsKey = 0;
-    for(int i = 0; i < 1000000; i++)
-    {
-      integerStrMap.put(i,Integer.toString((int) (1 + Math.random() * 1000000)));
-    }
-    System.out.println();
-    System.out.println("LinkedHashMap test");
-    for(int i = 0; i < cuontLaunch; i++)
-    {
-//test put
-      startTime = System.nanoTime();
-      integerStrMap.put(-1,"Test");
-      startTime = System.nanoTime() - startTime;
-      avgAddTime += startTime;
 
-//test get
-      startTime = System.nanoTime();
-      integerStrMap.get(1123);
-      startTime = System.nanoTime() - startTime;
-      avgGetTime += startTime;
+    testMapFunc(stringMap, cuontLaunch, "HashMap");
+    testMapFunc(integerStringMap, cuontLaunch, "TreeMap");
+    testMapFunc(integerStrMap, cuontLaunch, "LinkedHashMap");
 
-//test contains key
-      startTime = System.nanoTime();
-      integerStrMap.containsKey(1123);
-      startTime = System.nanoTime() - startTime;
-      avgContainsKey += startTime;
-
-//test cuntains value
-      startTime = System.nanoTime();
-      integerStrMap.containsValue("1233");
-      startTime = System.nanoTime() - startTime;
-      avgContainsValue += startTime;
-
-//test remove key
-      startTime = System.nanoTime();
-      integerStrMap.remove(1233);
-      startTime = System.nanoTime() - startTime;
-      avgRemoveTime += startTime;
-    }
-
-
-    System.out.println("Avg Put LinkedHashMap = " + avgAddTime / cuontLaunch);
-    System.out.println("Avg Get LinkedHashMap = " + avgGetTime / cuontLaunch);
-    System.out.println("Avg containsKey LinkedHashMap = " + avgContainsKey / cuontLaunch);
-    System.out.println("Avg containsValue LinkedHashMap = " + avgContainsValue / cuontLaunch);
-    System.out.println("Avg remove LinkedHashMap = " + avgRemoveTime / cuontLaunch);
   }
 
   public static void main(String[] args)

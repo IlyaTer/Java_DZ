@@ -4,7 +4,7 @@ import java.util.*;
 
 public class TestJavaCollections
 {
-  public static void main(String[] args)
+  private static void arrayListVsLinkedList(int cuontLaunch)
   {
     System.out.println("Test a");
     //ArrayList vs LinkedList
@@ -16,7 +16,6 @@ public class TestJavaCollections
     double avgGetTime = 0;
     double avgIndexOfTime = 0;
     double avgSetTime = 0;
-    int cuontLaunch = 10000;
     List<Integer> integerArrayList = new ArrayList<>();
     for(int i = 0; i < 1000000; i++)
     {
@@ -130,11 +129,14 @@ public class TestJavaCollections
     System.out.println("Avg indexOf time = " + avgIndexOfTime / cuontLaunch);
     System.out.println("Avg set time = " + avgSetTime / cuontLaunch);
 
+  }
 
-//test b
-    avgAddTime = 0;
-    avgRemoveTime = 0;
-    int avgContains = 0;
+  private static void hashSetVsTreeSetVsLinkedHashSet(int cuontLaunch)
+  {
+    long startTime = 0;
+    double avgAddTime = 0;
+    double avgRemoveTime = 0;
+    double avgContains = 0;
     System.out.println();
     System.out.println("Test b");
     Set<Integer> integerSet = new HashSet<>();
@@ -244,16 +246,20 @@ public class TestJavaCollections
     System.out.println("Avg remove LinkedHashSet = " + avgRemoveTime / cuontLaunch);
     System.out.println("Avg contains LinkedHashSet = " + avgContains / cuontLaunch);
 
+  }
 
-//test c
+  private static void hashMapVsTreeMapVsLinkedHashMap(int cuontLaunch)
+  {
+    //test c
+    long startTime = 0;
     System.out.println();
     System.out.println("test c");
     Map<Integer, String> stringMap = new HashMap<>();
-    avgAddTime = 0;
-    avgGetTime = 0;
-    avgRemoveTime = 0;
-    int avgContainsValue = 0;
-    int avgContainsKey = 0;
+    double avgAddTime = 0;
+    double avgGetTime = 0;
+    double avgRemoveTime = 0;
+    double avgContainsValue = 0;
+    double avgContainsKey = 0;
     for(int i = 0; i < 1000000; i++)
     {
       stringMap.put(i,Integer.toString((int) (1 + Math.random() * 1000000)));
@@ -404,7 +410,13 @@ public class TestJavaCollections
     System.out.println("Avg containsKey LinkedHashMap = " + avgContainsKey / cuontLaunch);
     System.out.println("Avg containsValue LinkedHashMap = " + avgContainsValue / cuontLaunch);
     System.out.println("Avg remove LinkedHashMap = " + avgRemoveTime / cuontLaunch);
+  }
 
+  public static void main(String[] args)
+  {
+    arrayListVsLinkedList(1000);
+    hashSetVsTreeSetVsLinkedHashSet(1000);
+    hashMapVsTreeMapVsLinkedHashMap(1000);
   }
 
 }
